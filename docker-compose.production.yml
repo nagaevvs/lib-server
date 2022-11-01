@@ -4,7 +4,7 @@ services:
     volumes:
       - ./counter/data:/data
   counter:
-    build: ./counter
+    image: nagaevvs/lib-counter:0.2
     ports:
       - 3002:3002
     environment:
@@ -13,7 +13,7 @@ services:
     depends_on:
       - redis
   server:
-    build: ./server
+    image: nagaevvs/lib-server:0.2
     ports:
       - 80:5000
     environment:
