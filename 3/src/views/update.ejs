@@ -1,0 +1,63 @@
+
+<%- include('./port/layout-start') %>
+
+<h2 class="title">Редактировать книгу</h2>
+
+<div class="view">
+    <div class="view__section">
+        <img class="view__image" src="../public/books/<%=book.fileName %>" alt="" />
+        <form action="/update/<%=book.id %>/upload-file" method="post" enctype="multipart/form-data">
+            <div>
+              <label for="file">Выберете новый файл</label>
+              <input type="file" id="books-file" name="books-file" multiple required>
+            </div>
+            <div>
+              <button>Загрузить</button>
+            </div>
+           </form>
+    </div>
+    <div class="view__section">
+       
+
+       <form name="form form-create" class="form-create" action="/update/<%=book.id %>" method="post">
+        <span class="form__input-container">
+            <label class="form__label" for="create-title">
+                Название книги:
+            </label>
+            <input class="form__input" id="create-title" type="text" name="title" value="<%=book.title %>" />
+        </span>
+    
+        <span class="form__input-container">
+            <label class="form__label" for="create-authors">
+                Автор:
+            </label>
+            <input class="form__input" id="create-authors" type="text" name="authors" value="<%=book.authors %>" />
+        </span>
+    
+        <span class="form__input-container">
+            <label class="form__label" for="create-description">Описание:</label>
+            <input class="form__input" id="create-description" type="text" name="description" value="<%=book.description %>" />
+        </span>
+    
+        <button class="form__button" type="submit">Изменить книгу</button>
+    </form>
+    
+  
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<%- include('./port/layout-end') %>

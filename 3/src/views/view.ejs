@@ -1,0 +1,49 @@
+
+<%- include('./port/layout-start') %>
+
+
+<h2 class="title">Просмотр информации о книге</h2>
+
+<div class="view">
+    <div class="view__section">
+        <img class="view__image" src="../public/books/<%=el.fileName %>" alt="" />
+        <div></div>
+    </div>
+    
+    <div class="view__section">
+        <span class="view__label">Название</span>
+        <p class="view__content"><%=el.title %></p>
+
+        <span class="view__label">Описание</span>
+        <p class="view__content"><%=el.description %></p>
+
+        <span class="view__label">Автор</span>
+        <p class="view__content"><%=el.authors %></p>
+
+        <span class="view__label">id</span>
+        <p class="view__content"><%=el.id %></p>
+
+        <span class="view__label">Количество просмотров</span>
+        <p class="view__content"><%=count.count %></p>
+
+        <a class="link__button" href="/update/<%=el.id %>">Редактировать книгу</a>
+        <a class="link__button" href="/view/<%=el.id %>/delete">Удалить книгу</a>
+      
+        
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<%- include('./port/layout-end') %>

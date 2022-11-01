@@ -1,0 +1,52 @@
+
+<%- include('./port/layout-start') %>
+
+<h2 class="title">Добавить новую книгу</h2>
+
+<div class="view">  
+    
+    <div class="view__section">
+       <!-- Эта форма отправит данные методом POST -->
+
+       <form name="form form-create" class="form-create" action="/create" method="post">
+        <span class="form__input-container">
+            <label class="form__label" for="create-title">
+                Название книги:
+            </label> 
+            <input class="form__input" id="create-title" type="text" name="title" />
+        </span>
+    
+        <span class="form__input-container">
+            <label class="form__label" for="create-authors">
+                Автор:
+            </label>
+            <input class="form__input" id="create-authors" type="text" name="authors" />
+        </span>
+    
+        <span class="form__input-container">
+            <label class="form__label" for="create-description">Описание:</label>
+            <input class="form__input" id="create-description" type="text" name="description" />
+        </span>
+    
+        <button class="form__button" type="submit">Добавить книгу</button>
+    </form>
+    
+  
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<%- include('./port/layout-end') %>

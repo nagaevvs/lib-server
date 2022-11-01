@@ -1,0 +1,10 @@
+FROM node
+
+WORKDIR /app
+
+ARG NODE_ENV=development
+COPY ./package*.json ./
+RUN npm install
+
+
+CMD npm run dev

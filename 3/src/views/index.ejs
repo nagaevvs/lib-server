@@ -1,0 +1,29 @@
+
+<%- include('./port/layout-start') %>
+
+<h2 class="title">Список книг Библиотеки</h2>
+
+      <div class="cards">
+        <% for(var i=0; i<lib.length;i++) {%>
+           
+
+            <div class="card">
+                <a class="card__link" href="/view/<%=lib[i].id %>" alt="<%=lib[i].title %>"> 
+                <div class="card__content">
+                  <img class="card__image" src="../public/books/<%=lib[i].fileName %>" alt="" />
+                </div>
+                </a>
+                <p class="card__teg"><%=lib[i].authors %></p>
+                <p class="card__title"><%=lib[i].title %></p>
+                <div class="card__line"></div>
+              </div>
+
+            
+        <%} %>
+        
+    
+    </div>
+    
+    
+<%- include('./port/layout-end') %>
+   
