@@ -1,0 +1,29 @@
+services:
+  redis:
+    image: redis
+    volumes:
+      - ./counter/data:/data
+  counter:
+    build: 
+      context: ./counter
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./counter/src:/app/src
+    ports:
+      - 3002:3002
+    environment:
+      - PORT=3002
+      - REDIS_URL=redis://redis
+    depends_on:
+      - redis
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./server/src:/app/src
+    ports:
+      - 80:5000
+    environment:
+      - PORT=5000
+    
