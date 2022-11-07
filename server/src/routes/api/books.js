@@ -5,6 +5,8 @@ const fileMulter = require("../../middleware/file");
 const path = require("path");
 const lib = require("../../public/context/lib");
 
+const Books = require("../../models/books");
+
 class Book {
   constructor(
     title = "",
@@ -29,100 +31,99 @@ class Book {
 
 //получаем массив всех книг
 router.get("/", (req, res) => {
-  const { books } = lib;
-  res.json(books);
+  Books.find({}).exec(function (err, books) {
+    if (err) throw err;
+    res.json(books);
+    console.log(books);
+  });
 });
 
 //получаем объект книги, если запись не найдено вернем Code: 404
-router.get("/:id", (req, res) => {
-  const { books } = lib;
-  const { id } = req.params;
-  const idx = books.findIndex((el) => el.id === id);
+router.get("/:_id", (req, res) => {
+  const { _id } = req.params;
 
-  if (idx !== -1) {
-    res.json(books[idx]);
-  } else {
-    res.status(404);
-    res.json({ errcode: 404, errmsg: "Запись не найдена" });
-  }
+  Books.findById(_id, function (err, book) {
+    if (err) throw err;
+    res.json(book);
+  });
 });
 
 //Загрузить файл
-router.post("/:id/upload", fileMulter.single("books-file"), (req, res) => {
-  const { books } = lib;
-  const { id } = req.params;
-  const idx = books.findIndex((el) => el.id === id);
-  if (req.file) {
+router.post(
+  "/:id/upload",
+  fileMulter.single("books-file"),
+  async (req, res) => {
+    const { id } = req.params;
     const { path, filename } = req.file;
-    if (idx !== -1) {
-      books[idx].fileBook = path;
-      books[idx].fileName = filename;
-      res.json(books[idx]);
-    } else {
-      res.status(404);
-      res.json({ errcode: 404, errmsg: "Запись не найдена" });
+    try {
+      const updateImage = await Books.findByIdAndUpdate(
+        id,
+        { fileBook: path, fileName: filename },
+        { new: true }
+      );
+      res.json(updateImage);
+    } catch (e) {
+      res.status(404).json({ errcode: 404, errmsg: e });
     }
 
-    res.json({ path });
+    res.json();
   }
-  res.json();
-});
+);
 
 //скачать файл
-router.get("/:id/download", (req, res) => {
-  const { books } = lib;
-  const { id } = req.params;
-  const idx = books.findIndex((el) => el.id === id);
+router.get("/:_id/download", async (req, res) => {
+  const { _id } = req.params;
 
-  if (idx !== -1) {
-    res.download(path.join(books[idx].fileBook), books[idx].fileName);
-  } else {
-    res.status(404);
-    res.json({ errcode: 404, errmsg: "Запись не найдена" });
+  try {
+    Books.findById(_id, function (err, book) {
+      if (err) throw err;
+
+      res.download(path.join(book.fileBook), book.fileName);
+    });
+  } catch (e) {
+    res.json(e);
   }
 });
 
 //создаем книги и возврашаем ее же вместе с присвоенным id
-router.post("/", (req, res) => {
-  const { books } = lib;
-  const { title, description } = req.body;
-  const newBook = new Book(title, description);
-  books.push(newBook);
-  res.status(201);
-  res.json(newBook);
+router.post("/", async (req, res) => {
+  const { title, description, authors } = req.body;
+  const newBook = new Books({ title, description, authors });
+
+  try {
+    await newBook.save();
+    res.json(req.body);
+
+    //res.redirect("/");
+  } catch (e) {
+    res.status(500).json(e);
+  }
 });
 
 //редактируем объект книги, если запись не найдено вернем Code: 404
-router.put("/:id", (req, res) => {
-  const { books } = lib;
+router.put("/:id", async (req, res) => {
   const { title, description, authors } = req.body;
   const { id } = req.params;
-  const idx = books.findIndex((el) => el.id === id);
-  if (idx !== -1) {
-    books[idx] = {
-      ...books[idx],
-      title,
-      description,
-      authors,
-    };
-    res.json(books[idx]);
-  } else {
-    res.status(404);
-    res.json({ errcode: 404, errmsg: "Запись не найдена" });
+  try {
+    const newBook = await Books.findByIdAndUpdate(
+      id,
+      { title: title, description: description, authors: authors },
+      { new: true }
+    );
+    res.json(newBook);
+  } catch (e) {
+    res.status(500).json(e);
   }
 });
 
 //удаляем книгу и возвращаем ответ: 'ok'
 router.delete("/:id", (req, res) => {
-  const { books } = lib;
   const { id } = req.params;
-  const idx = books.findIndex((el) => el.id === id);
-  if (idx !== -1) {
-    books.splice(idx, 1);
-  } else {
-    res.status(404);
-    res.json({ errcode: 404, errmsg: "Запись не найдена" });
-  }
+  Books.findByIdAndDelete(id, function (err, doc) {
+    if (err) return console.log(err);
+    res.json("Удалена книга");
+    console.log("Удален пользователь ", doc);
+  });
 });
 
 module.exports = router;

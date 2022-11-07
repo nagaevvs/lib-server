@@ -21,7 +21,7 @@ const lib = {
       favorite: "",
       fileCover: "",
       fileName: "2.jpg",
-      fileBook: "public\\books\\2.jpg",
+      fileBook: "/app/src/public/books/2.jpg",
     },
 
     {
@@ -33,7 +33,7 @@ const lib = {
       favorite: "",
       fileCover: "",
       fileName: "3.jpg",
-      fileBook: "public\\books\\3.jpg",
+      fileBook: "/app/src/public/books/3.jpg",
     },
 
     {
@@ -45,7 +45,7 @@ const lib = {
       favorite: "",
       fileCover: "",
       fileName: "4.jpg",
-      fileBook: "public\\books\\4.jpg",
+      fileBook: "/app/src/public/books/4.jpg",
     },
 
     {
@@ -58,7 +58,7 @@ const lib = {
       favorite: "",
       fileCover: "",
       fileName: "5.jpg",
-      fileBook: "public\\books\\5.jpg",
+      fileBook: "/app/src/public/books/5.jpg",
     },
 
     {
@@ -70,7 +70,7 @@ const lib = {
       favorite: "",
       fileCover: "",
       fileName: "6.jpg",
-      fileBook: "public\\books\\6.jpg",
+      fileBook: "/app/src/public/books/6.jpg",
     },
   ],
 };
